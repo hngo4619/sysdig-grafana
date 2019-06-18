@@ -1,0 +1,14 @@
+namespace: default
+
+ingress:
+  host: grafana.<CLUSTER_NAME>.us-south.containers.appdomain.cloud
+  path: /
+
+service:
+  port: 3000
+
+replicas: 1
+
+image: <CONTAINER_REGISTRY>/<REGISTRY_NAMESPACE>/<IMAGE_NAME>
+tag: latest
+imagePullPolicy: Always
