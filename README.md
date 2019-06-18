@@ -13,15 +13,15 @@ This guide will show you how to set up Sysdig monitoring in an IBM Cloud Kuberne
 
 2. Click the `Edit sources` button corresponding to your Sysdig Monitoring instance that you want to use to collect data. On the next page, look for the section labeled `Install Sysdig Agent to your cluster`. This should provide you with a command (listed below) that you can execute on your cluster to install the Sysdig agent that will collect metrics from each of your pods.
 
-```
-curl -sL https://ibm.biz/install-sysdig-k8s-agent | bash -s -- -a ACCESS_KEY -c COLLECTOR_ENDPOINT
-```
+  ```
+  curl -sL https://ibm.biz/install-sysdig-k8s-agent | bash -s -- -a ACCESS_KEY -c COLLECTOR_ENDPOINT
+  ```
 
-`ACCESS_KEY` is the ingestion key for the instance. You can find this by clicking the menu button (3 vertical dots) next to your instance on the [Sysdig Monitoring dashboard](https://cloud.ibm.com/observe/monitoring).
+  `ACCESS_KEY` is the ingestion key for the instance. You can find this by clicking the menu button (3 vertical dots) next to your instance on the [Sysdig Monitoring dashboard](https://cloud.ibm.com/observe/monitoring).
 
-`COLLECTOR_ENDPOINT` is the ingestion URL for the region where the monitoring instance is available. For an instance in the us-south, the endpoint is `ingest.us-south.monitoring.cloud.ibm.com`.
+  `COLLECTOR_ENDPOINT` is the ingestion URL for the region where the monitoring instance is available. For an instance in the us-south, the endpoint is `ingest.us-south.monitoring.cloud.ibm.com`.
 
-For additional information on configuring Sysdig agent on Linux, Docker, or a Kubernetes cluster, see [here](https://cloud.ibm.com/docs/services/Monitoring-with-Sysdig?topic=Sysdig-config_agent).
+  For additional information on configuring Sysdig agent on Linux, Docker, or a Kubernetes cluster, see [here](https://cloud.ibm.com/docs/services/Monitoring-with-Sysdig?topic=Sysdig-config_agent).
 
 3. Now that you have Sysdig installed on your cluster, we have to validate that it's collecting metrics data. In the [Sysdig Monitoring dashboard](https://cloud.ibm.com/observe/monitoring), click the `View Sysdig` button for your instance. This will launch your Sysdig instance dashboard. The first view that you see should show the pods in your Kubernetes cluster. This means that everything is working as intended. If not, please see the additional information linked above for troubleshooting.
 
@@ -31,12 +31,12 @@ For additional information on configuring Sysdig agent on Linux, Docker, or a Ku
 
 6. Next, we need to install the Sysdig datasource plugin on your Grafana instance. Depending on how you have it installed, follow the instructions [here](https://github.com/draios/grafana-sysdig-datasource#getting-started).
 
-If you do not have Grafana running, you can deploy it on a Kubernetes cluster (the same one that you have Sysdig deployed on is fine or a different one) using Helm with the charts provided in the `helm` directory in this repo. You'll need to build the Docker image and push it to the IBM Cloud container registry (or equivalent). You'll also need to edit some of the values in `values.yaml` that will be specific to your cluster, registry, and image.
+  If you do not have Grafana running, you can deploy it on a Kubernetes cluster (the same one that you have Sysdig deployed on is fine or a different one) using Helm with the charts provided in the `helm` directory in this repo. You'll need to build the Docker image and push it to the IBM Cloud container registry (or equivalent). You'll also need to edit some of the values in `values.yaml` that will be specific to your cluster, registry, and image.
 
-An example command on building, tagging, and pushing a docker image to IBM Cloud container registry:
+  An example command on building, tagging, and pushing a docker image to IBM Cloud container registry:
 
-```
-docker build -t registry.ng.bluemix.net/getting-native/grafana-sysdig:latest . && docker push registry.ng.bluemix.net/getting-native/grafana-sysdig:latest
+  ```
+  docker build -t registry.ng.bluemix.net/getting-native/grafana-sysdig:latest . && docker push registry.ng.bluemix.net/getting-native/grafana-sysdig:latest
 ```
 
 7. You should have the Sysdig plugin installed on Grafana. Open your Grafana dashboard. Go to `Add Datasource`. In the following view, select `Sysdig`. In the section labeled `Sysdig API Settings`, click the `Plan` dropdown and select `Pro Software`. For the URL textfield that appears, you need to add the regional endpoint for your Sysdig instance. For a Sysdig instance in the us-south region, the endpoint is `https://us-south.monitoring.cloud.ibm.com`.
